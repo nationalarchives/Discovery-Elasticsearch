@@ -1,0 +1,101 @@
+## Mappings website ##
+
+"mappings": {
+  "tnawebpageassetview":  {
+    "properties": {
+      "ID": {
+        "type": "keyword",
+        "index": true,
+        "store": true,
+        "norms": false
+      },
+      "CONTENT": {
+        "type": "text",
+        "analyzer": "txt_stemmed",
+        "index": true,
+        "store": true,
+        "doc_values": false,
+        "copy_to": "text_gen"
+      },
+      "DESCRIPTION": {
+        "type": "text",
+        "index": true,
+        "store": true,
+        "analyzer": "txt_stemmed",
+        "doc_values": false,
+        "copy_to": [ "text_gen" ]
+      },
+      "END_DATE": {
+        "type": "date",
+        "format": "yyyy-MM-dd||year",
+        "index": true,
+        "store": true,
+        "fields": {
+          "SORT": {
+            "type": "date",
+            "format": "yyyy-MM-dd"
+          }
+        }
+      },
+      "SOURCE" : {
+        "type": "integer",
+        "index": "true",
+        "store": true
+      },
+      "START_DATE": {
+        "type": "date",
+        "format": "yyyy-MM-dd||year",
+        "index": true,
+        "store": true,
+        "fields": {
+          "SORT": {
+            "type": "date",
+            "format": "yyyy-MM-dd"
+          }
+        }
+      },
+      "SUBJECTS": {
+        "type": "text",
+        "index": true,
+        "store": true,
+        "analyzer": "txt_stemmed",
+        "doc_values": false,
+        "copy_to": [ "text_gen" ],
+        "position_increment_gap": 100,
+        "boost": 5
+      },
+      "TITLE": {
+        "type": "text",
+        "index": true,
+        "store": true,
+        "analyzer": "txt_stemmed",
+        "doc_values": false,
+        "fielddata": true,
+        "fields": {
+         "EXACT": {
+           "type": "text",
+           "analyzer": "txt_exact"
+         },
+         "SORT": {
+           "type": "text",
+           "analyzer": "alphanumsort",
+           "fielddata": true
+         }
+       }
+     },
+      "text_gen": {
+        "type": "text",
+        "index": true,
+        "store": false,
+        "analyzer": "txt_stemmed",
+        "doc_values": false,
+        "fields": {
+          "EXACT": {
+            "analyzer": "txt_exact",
+            "type": "text"
+            }
+          }
+        }
+      }
+    }
+  }

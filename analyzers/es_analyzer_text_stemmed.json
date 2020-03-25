@@ -1,0 +1,10 @@
+## stemming analyzer ##
+
+"analyzer": {
+  "text_stemmed":  {
+      "type": "custom",
+      "filter": ["asciifolding", "lowercase", "tna_word_delimiter",
+                  "keyword_repeat", "porter_stem", "tna_unique"],
+      "tokenizer": "standard"
+  }
+}

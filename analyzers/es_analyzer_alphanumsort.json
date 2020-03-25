@@ -1,0 +1,10 @@
+## analyzer for alpha-numeric sorting ##
+
+"analyser": {
+  "alphanumsort": {
+    "type": "custom",
+    "tokenizer": "keyword",
+    "filter": ["lowercase", "trim"],
+    "char_filter": ["alphanumsort_0", "alphanumsort_1", "alphanumsort_2"]
+  }
+}

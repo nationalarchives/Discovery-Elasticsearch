@@ -1,0 +1,9 @@
+## taxonomy search | no stemming | case sensitive | punctuation removed ##
+
+"analyzer": {
+  "textcasnopunc":   {
+      "type": "custom",
+      "filter": ["asciifolding", "tna_word_delimiter"],
+      "tokenizer": "standard"
+  }
+}

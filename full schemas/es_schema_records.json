@@ -1,0 +1,609 @@
+## Schema records ##
+{
+  "settings": {
+    "analysis": {
+      "filter": {
+        "tna_word_delimiter": {
+          "type": "word_delimiter",
+          "catenate_words": true,
+          "preserve_original": true
+        },
+        "tna_unique": {
+          "type": "unique",
+          "only_on_same_position": true
+        },
+        "autocomplete_filter": {
+          "type": "edge_ngram",
+          "min_gram": 1,
+          "max_gram": 20,
+          "token_chars": [ "letter", "digit" ]
+        },
+      "char_filter": {
+        "alphanumsort_0": {
+          "type": "pattern_replace",
+          "pattern": "(\\d+)",
+          "replacement": "000000000$1"
+        },
+        "alphanumsort_1": {
+          "type": "pattern_replace",
+          "pattern": "0*([0-9]{8,})",
+          "replacement": "$1"
+        },
+        "alphanumsort_2": {
+          "type": "pattern_replace",
+          "pattern": "([^a-zA-Z0-9])",
+          "replacement": ""
+        },
+        "en_char_filter": {
+          "type": "mapping",
+          "mappings": [
+            "prise=>prixse",
+            "isable=>izable",
+            "isation=>ization",
+            "ise=>ize",
+            "ising=>izing",
+            "sation=>zation",
+            "ised=>ized"
+          ]
+        }
+      },
+      "analyzer": {
+        "txt_exact": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": [ "asciifolding", "lowercase", "tna_word_delimiter", "german_normalization" ],
+          "char_filter": [ "en_char_filter" ]
+        },
+        "txt_stemmed": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": ["asciifolding", "lowercase", "tna_word_delimiter", "german_normalization",
+                      "keyword_repeat", "porter_stem", "tna_unique"],
+          "char_filter": [ "en_char_filter" ]
+        },
+        "alphanumsort": {
+          "type": "custom",
+          "filter": [ "lowercase", "trim" ],
+          "tokenizer": "keyword",
+          "char_filter": [ "alphanumsort_0", "alphanumsort_1", "alphanumsort_2" ]
+        },
+        "autocomplete": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": [ "lowercase", "autocomplete_filter" ]
+        },
+        "text_casnopunc":   {
+            "type": "custom",
+            "filter": ["asciifolding", "tna_word_delimiter"],
+            "tokenizer": "standard"
+        },
+        "text_nocasnopunc":   {
+            "type": "custom",
+            "filter": ["asciifolding", "lowercase", "tna_word_delimiter"],
+            "tokenizer": "standard"
+        },
+        "text_caspunc":   {
+            "type": "custom",
+            "tokenizer": "whitespace"
+        }
+      }
+    }
+  },
+  "mappings": {
+    "recordassetview": {
+      "properties": {
+        "ADMINISTRATIVE_HISTORY": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "copy_to": "text_gen",
+          "doc_values": false
+        },
+        "ARRANGEMENT": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "copy_to": "text_gen",
+          "doc_values": false
+        },
+        "ALTERNATIVE_NAMES": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "copy_to": "text_gen",
+          "doc_values": false
+        },
+        "CATALOGUE_LEVEL": {
+          "type": "integer",
+          "index": true,
+          "store": true
+        },
+        "CATALOGUE_REFERENCE": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_exact",
+          "copy_to": [ "all_references", "textcaspunc", "textcasnopunc",
+          "textnocasnopunc" ],
+          "fields": {
+            "SORT": {
+              "type": "text",
+              "analyzer": "alphanumsort",
+              "fielddata": true
+            },
+            "EXACT": {
+              "type": "text",
+              "analyzer": "txt_exact"
+            }
+          }
+        },
+        "CATALOGUE_REFERENCE_FILTER": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false
+        },
+        "CLOSURE": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false
+        },
+        "CLOSURE_CODE": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false
+        },
+        "CLOSURE_STATUS": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false
+        },
+        "CLOSURE_TYPE": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false
+        },
+        "CONTENT": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false
+        },
+        "CONTEXT": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false,
+          "copy_to": ["textcaspunc", "textcasnopunc", "textnocasnopunc" ],
+          "fields": {
+            "EXACT": {
+              "type": "text",
+              "analyzer": "txt_exact",
+              "doc_values": false
+            }
+          }
+        },
+        "CORPORATE_BODIES": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false,
+          "copy_to": [ "text_gen", "textcaspunc", "textcasnopunc",
+          "textnocasnopunc" ],
+          "position_increment_gap": 100
+        },
+        "COVERING_DATES": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false
+        },
+        "DEPARTMENT_CODE": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false
+        },
+        "DESCRIPTION": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false,
+          "copy_to": [ "text_gen", "textcaspunc", "textcasnopunc",
+          "textnocasnopunc" ]
+        },
+        "ID": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false
+        },
+        "END_DATE": {
+          "type": "date",
+          "format": "yyyy-MM-dd||year",
+          "index": true,
+          "store": true,
+          "fields": {
+            "SORT": {
+              "type": "date",
+              "format": "yyyy-MM-dd"
+            }
+          }
+        },
+        "FORMER_DEPARTMENT_REFERENCE": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "doc_values": false,
+          "analyzer": "txt_stemmed",
+          "copy_to": [ "all_references", "text_gen" ]
+        },
+        "FORMER_PRO_REFERENCE": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false,
+          "copy_to": [ "all_references", "text_gen" ]
+        },
+        "HELD_BY_CODE": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false
+        },
+        "KEYWORDS": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false,
+          "copy_to": [ "text_gen" ],
+          "position_increment_gap": 100
+        },
+        "MAP_DESIGNATION": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false,
+          "copy_to": "text_gen"
+        },
+        "MAP_SCALE": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "keyword",
+          "doc_values": false,
+          "copy_to": "text_gen"
+        },
+        "NOTE": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false,
+          "copy_to": "text_gen"
+        },
+        "NUM_END_DATE": {
+          "type": "integer",
+          "index": true,
+          "store": true
+        },
+        "NUM_START_DATE": {
+          "type": "integer",
+          "index": true,
+          "store": true
+        },
+        "OPENING_DATE": {
+          "type": "date",
+          "index": true,
+          "store": true
+        },
+        "PERIOD": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false
+        },
+        "PERSON_DOB": {
+          "type": "date",
+          "index": true,
+          "store": true
+        },
+        "PERSON_FIRST_NAME": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false
+        },
+        "PERSON_FULL_NAME": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false,
+          "copy_to": [ "text_gen", "textcaspunc", "textcasnopunc",
+          "textnocasnopunc" ]
+        },
+        "PERSON_REFERENCES": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false
+        },
+        "PERSON_SURNAME": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false
+        },
+        "PERSON_STATISTICS": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false
+        },
+        "PERSON_TITLE_NAME": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false
+        },
+        "PHYSICAL_CONDITION": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false,
+          "copy_to": "text_gen"
+        },
+        "PLACE_ADDRESS": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false,
+          "copy_to": "text_gen"
+        },
+        "PLACE_COUNTRY": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "ignore_above": 256,
+          "copy_to": "text_gen"
+        },
+        "PLACE_COUNTRY_ID": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "ignore_above": 256,
+          "doc_values": false
+        },
+        "PLACE_COUNTY": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "ignore_above": 256
+        },
+        "PLACE_COUNTY_ID": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "ignore_above": 256,
+          "doc_values": false
+        },
+        "PLACE_NAME": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false,
+          "copy_to": [ "text_gen", "textcaspunc", "textcasnopunc",
+          "textnocasnopunc" ]
+        },
+        "PLACE_NAME_OLD_COUNTY": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false
+        },
+        "PLACE_NAME_TOWN": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed"
+        },
+        "PLACE_REGION": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "ignore_above": 256
+        },
+        "PLACE_REGION_ID": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "keyword",
+          "doc_values": false
+        },
+        "PLACE_TOWN": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false
+        },
+        "REPOSITORY": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false
+        },
+        "REPOSITORY_NAME": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "copy_to": "text_gen"
+        },
+        "REPOSITORY_REFERENCE": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false
+        },
+        "REPOSITORY_TYPE_CODE": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false
+        },
+        "SCHEMA": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false
+        },
+        "SERIES_CODE": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false
+        },
+        "SOURCE": {
+          "type": "integer",
+          "index": true,
+          "store": true
+        },
+        "START_DATE": {
+          "type": "date",
+          "format": "yyyy-MM-dd||year",
+          "index": true,
+          "store": true,
+          "fields": {
+            "SORT": {
+              "type": "date",
+              "format": "yyyy-MM-dd"
+            }
+          }
+        },
+        "SUBJECTS": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false,
+          "copy_to": [ "text_gen", "textcaspunc", "textcasnopunc",
+          "textnocasnopunc" ],
+          "position_increment_gap": 100
+        },
+        "TAXONOMY_NAME": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false,
+          "ignore_above": 256
+        },
+        "TAXONOMY_ID": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false,
+          "ignore_above": 256
+        },
+        "TITLE": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false,
+          "copy_to": ["textcaspunc", "textcasnopunc", "textnocasnopunc" ],
+          "fields": {
+            "EXACT": {
+              "type": "text",
+              "analyzer": "txt_exact"
+            },
+            "SORT": {
+              "type": "text",
+              "analyzer": "alphanumsort",
+              "fielddata": true
+            }
+          }
+        },
+        "TITLE_FILTER": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false,
+          "doc_values": true
+        },
+        "tstamp": {
+          "type": "date",
+          "format": "strict_date_optional_time"
+        },
+        "textcaspunc": {
+          "type": "text",
+          "analyzer": "text_caspunc",
+          "index": true,
+          "store": false
+        },
+        "textcasnopunc": {
+          "type": "text",
+          "analyzer": "text_casnopunc",
+          "index": true,
+          "store": false
+        },
+        "textnocasnopunc": {
+          "type": "text",
+          "analyzer": "text_nocasnopunc",
+          "index": true,
+          "store": false
+        },
+        "text_gen": {
+          "type": "text",
+          "index": true,
+          "store": false,
+          "analyzer": "txt_stemmed",
+          "doc_values": false,
+          "fields": {
+            "EXACT": {
+              "analyzer": "txt_exact",
+              "type": "text"
+            }
+          }
+        },
+        "all_references": {
+          "type": "text",
+          "index": true,
+          "store": false,
+          "analyzer": "txt_exact",
+          "doc_values": false,
+          "fields": {
+            "EXACT": {
+              "type": "text",
+              "analyzer": "txt_exact"
+            }
+          }
+        }
+      }
+    }
+  }
+}

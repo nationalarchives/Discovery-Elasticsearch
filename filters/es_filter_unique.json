@@ -1,0 +1,8 @@
+## unique filter used to remove duplicates ##
+
+"filter": {
+"tna_unique": {
+  "type": "unique",
+  "only_on_same_position": true
+  },
+}

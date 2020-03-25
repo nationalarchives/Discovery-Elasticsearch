@@ -1,0 +1,9 @@
+## filter to standardise some common word endings ##
+
+"char_filter": {
+  "en_char_filter": {
+    "type": "mapping",
+    "mappings": ["prise=>prixse", "isable=>izable", "isation=>ization",
+      "ise=>ize", "ising=>izing", "sation=>zation", "ised=>ized"]
+  }
+}

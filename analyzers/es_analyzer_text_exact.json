@@ -1,0 +1,9 @@
+## text exact analyzer ##
+
+  "analyzer": {
+    "text_general":   {
+        "type": "custom",
+        "filter": ["asciifolding", "lowercase", "tna_word_delimiter"],
+        "tokenizer": "standard"
+    }
+  }

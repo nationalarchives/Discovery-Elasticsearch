@@ -1,0 +1,19 @@
+## filter to be used for alpha-numeric sorting ##
+
+"char_filter": {
+  "alphanumsort_0": {
+      "type": "pattern_replace",
+      "pattern": "(\\d+)",
+      "replacement": "000000000$1"
+  },
+  "alphanumsort_1": {
+      "type": "pattern_replace",
+      "pattern": "0*([0-9]{8,})",
+      "replacement": "$1"
+  },
+  "alphanumsort_2": {
+      "type": "pattern_replace",
+      "pattern": "([^a-zA-Z0-9])",
+      "replacement": ""
+  }
+}

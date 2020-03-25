@@ -1,0 +1,10 @@
+## TNA Word Delimiter filter. Defaults accepted. Except catenate_words standard
+preserve_original ##
+
+"filter":   {
+  "tna_word_delimiter": {
+      "type": "word_delimiter",
+      "catenate_words": true,
+      "preserve_original": true
+  }
+}

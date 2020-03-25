@@ -1,0 +1,387 @@
+PUT /discovery_fileauthority
+{
+  "settings": {
+    "analysis": {
+      "filter": {
+        "tna_word_delimiter": {
+          "type": "word_delimiter",
+          "catenate_words": true,
+          "preserve_original": true
+        },
+        "tna_unique": {
+          "type": "unique",
+          "only_on_same_position": true
+        },
+        "autocomplete_filter": {
+          "type": "edge_ngram",
+          "min_gram": 1,
+          "max_gram": 20,
+          "token_chars": [ "letter", "digit" ]
+        }
+      },
+      "char_filter": {
+        "alphanumsort_0": {
+          "type": "pattern_replace",
+          "pattern": "(\\d+)",
+          "replacement": "000000000$1"
+        },
+        "alphanumsort_1": {
+          "type": "pattern_replace",
+          "pattern": "0*([0-9]{8,})",
+          "replacement": "$1"
+        },
+        "alphanumsort_2": {
+          "type": "pattern_replace",
+          "pattern": "([^a-zA-Z0-9])",
+          "replacement": ""
+        },
+        "en_char_filter": {
+          "type": "mapping",
+          "mappings": [
+            "prise=>prixse",
+            "isable=>izable",
+            "isation=>ization",
+            "ise=>ize",
+            "ising=>izing",
+            "sation=>zation",
+            "ised=>ized"
+          ]
+        }
+      },
+      "analyzer": {
+        "txt_exact": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": [ "asciifolding", "lowercase", "tna_word_delimiter" ],
+          "char_filter": [ "en_char_filter" ]
+        },
+        "txt_stemmed": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": [
+            "asciifolding",
+            "lowercase",
+            "tna_word_delimiter",
+            "keyword_repeat",
+            "porter_stem",
+            "tna_unique"
+          ],
+          "char_filter": [ "en_char_filter" ]
+        },
+        "alphanumsort": {
+          "type": "custom",
+          "filter": [ "lowercase", "trim" ],
+          "tokenizer": "keyword",
+          "char_filter": [ "alphanumsort_0", "alphanumsort_1", "alphanumsort_2" ]
+        },
+        "autocomplete": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": [ "lowercase", "autocomplete_filter" ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "fileauthorityassetview": {
+      "properties": {
+        "ARCHON_COUNT": {
+          "type": "integer",
+          "index": true,
+          "store": true
+        },
+        "ALTERNATIVE_NAME": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "doc_values": false,
+          "copy_to": [ "text_gen", "text_man" ]
+        },
+        "CATEGORY_NAME": {
+          "type": "keyword",
+          "index": true,
+          "store": true
+        },
+        "CATEGORY_ID": {
+          "type": "integer",
+          "index": true,
+          "store": true
+        },
+        "ID": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false
+        },
+        "END_DATE": {
+          "type": "date",
+          "format": "yyyy-MM-dd||year",
+          "index": true,
+          "store": true,
+          "fields": {
+            "SORT": {
+              "type": "date",
+              "format": "yyyy-MM-dd"
+            }
+          }
+        },
+        "FILE_AUTHORITY_TYPE": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false
+        },
+        "SOURCE": {
+          "type": "integer",
+          "index": true,
+          "store": true
+        },
+        "ISPLC": {
+          "type": "boolean",
+          "index": false,
+          "store": true
+        },
+        "NRA_COUNT": {
+          "type": "integer",
+          "index": false,
+          "store": true
+        },
+        "NUM_END_DATE": {
+          "type": "integer",
+          "index": true,
+          "store": true
+        },
+        "NUM_START_DATE": {
+          "type": "integer",
+          "index": true,
+          "store": true
+        },
+        "PERIOD": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false
+        },
+        "PERSON_EPITHET": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "doc_values": false,
+          "copy_to": "text_gen"
+        },
+        "PERSON_FIRST_NAME": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false
+        },
+        "PERSON_FULL_NAME": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false,
+          "copy_to": "text_gen"
+        },
+        "PERSON_GENDER": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false
+        },
+        "PERSON_SURNAME": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false
+        },
+        "PERSON_TITLE_NAME": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false
+        },
+        "PLACE_COUNTRY": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "ignore_above": 256,
+          "copy_to": "text_gen"
+        },
+        "PLACE_COUNTRY_ID": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "ignore_above": 256
+        },
+        "PLACE_COUNTY": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "ignore_above": 256,
+          "doc_values": false
+        },
+        "PLACE_COUNTY_ID": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "ignore_above": 256,
+          "doc_values": false
+        },
+        "PLACE_OLD_COUNTY": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "ignore_above": 256,
+          "doc_values": false
+        },
+        "PLACE_OLD_COUNTY_ID": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "ignore_above": 256,
+          "doc_values": false
+        },
+        "PLACE_NAME": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false,
+          "copy_to": "text_gen"
+        },
+        "PLACE_NAME_OLD_COUNTY": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false
+        },
+        "PLACE_NAME_TOWN": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false
+        },
+        "PLACE_REGION": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "ignore_above": 256,
+          "doc_values": false
+        },
+        "PLACE_REGION_ID": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "ignore_above": 256,
+          "doc_values": false
+        },
+        "PLACE_TOWN": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false
+        },
+        "PLACE_TOWN_ID": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "ignore_above": 256,
+          "doc_values": false
+        },
+        "SORT_NAME": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false
+        },
+        "START_DATE": {
+          "type": "date",
+          "format": "yyyy-MM-dd||year",
+          "index": true,
+          "store": true,
+          "fields": {
+            "SORT": {
+              "type": "date",
+              "format": "yyyy-MM-dd"
+            }
+          }
+        },
+        "SUBCATEGORY_NAME": {
+          "type": "keyword",
+          "index": true,
+          "store": true
+        },
+        "SUBCATEGORY_ID": {
+          "type": "integer",
+          "index": true,
+          "store": true
+        },
+        "SUBJECT_TYPE": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false
+        },
+        "TITLE": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false,
+          "copy_to": [ "text_gen", "text_man" ],
+          "fields": {
+            "EXACT": {
+              "analyzer": "txt_exact",
+              "type": "text"
+            },
+            "SORT": {
+              "type": "text",
+              "analyzer": "alphanumsort",
+              "fielddata": true
+            }
+          }
+        },
+        "TITLE_FILTER": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false,
+          "doc_values": true
+        },
+        "text_gen": {
+          "type": "text",
+          "index": true,
+          "store": false,
+          "analyzer": "txt_stemmed",
+          "doc_values": false,
+          "fields": {
+            "EXACT": {
+              "analyzer": "txt_exact",
+              "type": "text"
+            }
+          }
+        },
+        "text_man": {
+          "type": "text",
+          "index": true,
+          "store": false,
+          "analyzer": "txt_stemmed",
+          "doc_values": false,
+          "fields": {
+            "EXACT": {
+              "analyzer": "txt_exact",
+              "type": "text"
+            }
+          }
+        }
+      }
+    }
+  }
+}

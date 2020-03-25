@@ -1,0 +1,8 @@
+## taxonomy search | no stemming | case sensitive | punctuation retained ##
+
+"analyzer": {
+  "textcaspunc":   {
+      "type": "custom",
+      "tokenizer": "whitespace"
+  }
+}

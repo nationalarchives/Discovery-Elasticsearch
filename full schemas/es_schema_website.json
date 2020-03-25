@@ -1,0 +1,252 @@
+## Schema website ##
+{
+  "settings": {
+    "analysis": {
+      "filter": {
+        "tna_word_delimiter": {
+          "type": "word_delimiter",
+          "catenate_words": true,
+          "preserve_original": true
+        },
+        "tna_unique": {
+          "type": "unique",
+          "only_on_same_position": true
+        },
+        "autocomplete_filter": {
+          "type": "edge_ngram",
+          "min_gram": 1,
+          "max_gram": 20,
+          "token_chars": [ "letter", "digit" ]
+        }
+      },
+      "char_filter": {
+        "alphanumsort_0": {
+          "type": "pattern_replace",
+          "pattern": "(\\d+)",
+          "replacement": "000000000$1"
+        },
+        "alphanumsort_1": {
+          "type": "pattern_replace",
+          "pattern": "0*([0-9]{8,})",
+          "replacement": "$1"
+        },
+        "alphanumsort_2": {
+          "type": "pattern_replace",
+          "pattern": "([^a-zA-Z0-9])",
+          "replacement": ""
+        },
+        "en_char_filter": {
+          "type": "mapping",
+          "mappings": [
+            "prise=>prixse",
+            "isable=>izable",
+            "isation=>ization",
+            "ise=>ize",
+            "ising=>izing",
+            "sation=>zation",
+            "ised=>ized"
+          ]
+        }
+      },
+      "analyzer": {
+        "txt_exact": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": [ "asciifolding", "lowercase", "tna_word_delimiter", "german_normalization" ],
+          "char_filter": [ "en_char_filter" ]
+        },
+        "txt_stemmed": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": ["asciifolding", "lowercase", "tna_word_delimiter", "german_normalization",
+                      "keyword_repeat", "porter_stem", "tna_unique"],
+          "char_filter": [ "en_char_filter" ]
+        },
+        "alphanumsort": {
+          "type": "custom",
+          "filter": [ "lowercase", "trim" ],
+          "tokenizer": "keyword",
+          "char_filter": [ "alphanumsort_0", "alphanumsort_1", "alphanumsort_2" ]
+        },
+        "autocomplete": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": [ "lowercase", "autocomplete_filter" ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "tnawebpageassetview":  {
+      "properties": {
+        "ID": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false
+        },
+        "CATALOGUE_REFERENCE": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_exact",
+          "copy_to": [ "text_gen"],
+          "fields": {
+            "SORT": {
+              "type": "text",
+              "analyzer": "alphanumsort",
+              "fielddata": true
+            }
+          }
+        },
+        "CONTENT": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "copy_to": [ "text_gen"],
+          "doc_values": false
+        },
+        "COVERING_DATES": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false
+        },
+        "DATE_CREATED": {
+          "type": "date",
+          "format": "yyyy-MM-dd||year",
+          "index": true,
+          "store": true,
+          "fields": {
+            "SORT": {
+              "type": "date",
+              "format": "yyyy-MM-dd"
+            }
+          }
+        },
+        "DATE_MODIFIED": {
+          "type": "date",
+          "format": "yyyy-MM-dd||year",
+          "index": true,
+          "store": true,
+          "fields": {
+            "SORT": {
+              "type": "date",
+              "format": "yyyy-MM-dd"
+            }
+          }
+        },
+        "DESCRIPTION": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false,
+          "copy_to": [ "text_gen" ]
+        },
+        "END_DATE": {
+          "type": "date",
+          "format": "yyyy-MM-dd||year",
+          "index": true,
+          "store": true,
+          "fields": {
+            "SORT": {
+              "type": "date",
+              "format": "yyyy-MM-dd"
+            }
+          }
+        },
+        "KEYWORDS": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false,
+          "copy_to": [ "text_gen" ],
+          "position_increment_gap": 100
+        },
+        "SOURCE" : {
+          "type": "integer",
+          "index": "true",
+          "store": true
+        },
+        "PERSON_FULL_NAME": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false,
+          "copy_to": [ "text_gen" ]
+        },
+        "PLACE_NAME": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false,
+          "copy_to": [ "text_gen" ]
+        },
+        "SCHEMA": {
+          "type": "keyword",
+          "index": true,
+          "store": true,
+          "norms": false
+        },
+        "START_DATE": {
+          "type": "date",
+          "format": "yyyy-MM-dd||year",
+          "index": true,
+          "store": true,
+          "fields": {
+            "SORT": {
+              "type": "date",
+              "format": "yyyy-MM-dd"
+            }
+          }
+        },
+        "SUBJECTS": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false,
+          "copy_to": [ "text_gen" ],
+          "position_increment_gap": 100
+        },
+        "TITLE": {
+          "type": "text",
+          "index": true,
+          "store": true,
+          "analyzer": "txt_stemmed",
+          "doc_values": false,
+          "fielddata": true,
+          "fields": {
+           "EXACT": {
+             "type": "text",
+             "analyzer": "txt_exact"
+           },
+           "SORT": {
+             "type": "text",
+             "analyzer": "alphanumsort",
+             "fielddata": true
+           }
+         }
+       },
+        "text_gen": {
+          "type": "text",
+          "index": true,
+          "store": false,
+          "analyzer": "txt_stemmed",
+          "doc_values": false,
+          "fields": {
+            "EXACT": {
+              "analyzer": "txt_exact",
+              "type": "text"
+            }
+          }
+        }
+      }
+    }
+  }
+}
