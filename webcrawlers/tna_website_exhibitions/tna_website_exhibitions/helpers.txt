@@ -1,0 +1,126 @@
+def parse_description(response):
+    il = ItemLoader(item=TnaWebsiteItem(), response=response)
+    il.default_input_processor = MapCompose(lambda v: v.split(), replace_escape_chars)
+    il.default_output_processor = Join()
+    '''railways'''
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "image-description")]//p/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "image-description")]//h3/text()')
+    '''agincourt, state-secrets'''
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "breather")]//p/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "breather")]//h2/text()')
+    '''designregisters'''
+    il.add_xpath('DESCRIPTION', '//span[contains(@class, "btprojtxt")]/text()')
+    il.add_xpath('DESCRIPTION', '//p[contains(@class, "btprojtxt")]/text()')
+    il.add_xpath('DESCRIPTION', '//a[contains(@class, "btprojlinks")]/text()')
+    '''first-world-war, black-history'''
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "entry-content")]//p/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "entry-content")]//h3/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "entry-content blog")]//p/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "entry-content blog")]//h3/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "entry-content multimedia")]//p/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "entry-content multimedia")]//h3/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "entry-content resource")]//p/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "entry-content resource")]//h3/text()')
+    '''cabinet-office-100'''
+    il.add_xpath('DESCRIPTION', '//main[contains(@role, "main")]//p/text()')
+    '''through-a-lens, australasia, americas, africa, asia'''
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "world")]//h1/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "world")]//p/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "africa")]//h1/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "africa")]//p/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "asia")]//h1/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "asia")]//p/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "americas")]//h1/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "americas")]//p/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "australasia")]//h1/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "australasia")]//p/text()')
+    il.add_xpath('DESCRIPTION', '//span[contains(@class, "controls")]/text()')
+    il.add_xpath('DESCRIPTION', '//span[contains(@class, "catRef")]/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@id, "main-container")]//p/text()')
+    '''titanic'''
+    il.add_xpath('DESCRIPTION', '//div[contains(@id, "storyIntro")]/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@id, "storyContent")]//p/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "outerWrapper")]//h3/a/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "outerWrapper")]//h2/a/text()')
+    '''conscription-appeals'''
+    il.add_xpath('DESCRIPTION', '//div[contains(@id, "landing-primary-content")]//h2/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@id, "landing-primary-content")]//p/text()')
+    '''olympics'''
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "slider-yearguide")]//p/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "recordslist-description")]/text()')
+    '''caribbean, panjab1947'''
+    il.add_xpath('DESCRIPTION', '//div[contains(@id, "primary-content")]//p/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@id, "primary-content")]//a/text()')
+    il.add_xpath('DESCRIPTION', '//li[contains(@class, "left")]//a/text()')
+    '''henryviii'''
+    il.add_xpath('DESCRIPTION', '//h1[contains(@class, "ax")]//text()')
+    il.add_xpath('DESCRIPTION', '//p[contains(@class, "ax")]//text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "main-col")]//p/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "col-third first")]//p/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "col-third")]//p/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "col-third last")]//p/text()')
+    '''latin Palaeography'''
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "paleography_area_1")]//h2/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "paleography_area_1")]//p/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "paleography_area_3")]//p/text()')
+    '''humanrights'''
+    il.add_xpath('DESCRIPTION', '//div[contains(@id, "content")]//p/text()')
+    il.add_xpath('DESCRIPTION', '//ul[contains(@class, "hr-doclist")]//li/text()')
+    il.add_xpath('DESCRIPTION', '//ul[contains(@class, "hr-doclist")]//li/a/text()')
+    '''caribbeanhistory'''
+    il.add_xpath('DESCRIPTION', '//p[contains(@id, "intro-paragraph")]/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@id, "main-content")]//p/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@id, "main-content")]//a/text()')
+    il.add_xpath('DESCRIPTION', '//ul[contains(@id, "exhibition-images")]//p/text()')
+    '''slavery'''
+    il.add_xpath('DESCRIPTION', '//div[contains(@id, "main-content")]//h3/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "clearfix")]//p/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "clearfix")]//a/text()')
+    '''latin - 301 error'''
+#    il.add_xpath('DESCRIPTION', '//div[contains(@class, "row")]//h2/text()')
+#    il.add_xpath('DESCRIPTION', '//div[contains(@class, "row")]//p/text()')
+    '''domesday'''
+    il.add_xpath('DESCRIPTION', '//div[contains(@id, "primary-content")]//h1/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@id, "main-content")]//h2/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@id, "main-content")]//p/text()')
+    '''museum'''
+    il.add_xpath('DESCRIPTION', '//p[contains(@class, "landingtext")]//text()')
+    '''nelson, battles, dambusters'''
+    il.add_xpath('DESCRIPTION', '//div[contains(@id, "contentmain2")]//ol/li/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@id, "popupcontent")]//td/h1/text()')
+    il.add_xpath('DESCRIPTION', '//p[contains(@class, "maintext")]//text()')
+    '''theartofwar'''
+    il.add_xpath('DESCRIPTION', '//p[contains(@class, "artist-listing-descp")]//text()')
+    il.add_xpath('DESCRIPTION', '//p[contains(@class, "artdetailsbox-copy")]//text()')
+    il.add_xpath('DESCRIPTION', '//a[contains(@class, "whitenodec")]//text()')
+    '''utk'''
+    il.add_xpath('DESCRIPTION', '//p[contains(@class, "mainbodytext")]//text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@id, "contentmain2")]//ol/li/text()')
+    il.add_xpath('DESCRIPTION', '//th/text()')
+    il.add_xpath('DESCRIPTION', '//td/text()')
+    '''maps'''
+    il.add_xpath('DESCRIPTION', '//div[contains(@id, "primary-content")]//p/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@id, "primary-content")]//ul/li/text()')
+    '''palaeography'''
+    il.add_xpath('DESCRIPTION', '//p[contains(@class, "mainbodytext")]//text()')
+    il.add_xpath('DESCRIPTION', '//p[contains(@class, "bodytext")]//text()')
+    il.add_xpath('DESCRIPTION', '//p[contains(@class, "style1")]//text()')
+    il.add_xpath('DESCRIPTION', '//ol/li/text()')
+    '''surgeonsatsea'''
+    il.add_xpath('DESCRIPTION', '//div[contains(@id, "landing-primary-content")]//a/text()')
+    il.add_xpath('DESCRIPTION', '//div[contains(@id, "landing-primary-content")]//p/text()')
+    '''spies'''
+    il.add_xpath('DESCRIPTION', '//td[contains(@class, "bodyblack")]/text()')
+    il.add_xpath('DESCRIPTION', '//td[contains(@class, "bodyblack")]//p/text()')
+    il.add_xpath('DESCRIPTION', '//span[contains(@class, "bodyopener")]/text()')
+    il.add_xpath('DESCRIPTION', '//span[contains(@class, "bodyblack")]/text()')
+    il.add_xpath('DESCRIPTION', '//span[contains(@class, "cipher")]//a/text()')
+    il.add_xpath('DESCRIPTION', '//span[contains(@class, "spies")]//a/text()')
+    il.add_xpath('DESCRIPTION', '//span[contains(@class, "cm")]//a/text()')
+    '''womeninuniform'''
+    il.add_xpath('DESCRIPTION', '//td[contains(@class, "emptyleftcol")]//p/text()')
+    '''rosenburg'''
+    il.add_xpath('DESCRIPTION', '//td[contains(@class, "extext")]//p/text()')
+    '''telecommunications-in-war'''
+    il.add_xpath('DESCRIPTION', '//div[contains(@class, "container-lf")]//p/text()')
+    il.add_xpath('DESCRIPTION', '//p[contains(@class, "wp-caption-text")]//text()')
