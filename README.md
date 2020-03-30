@@ -20,4 +20,4 @@ AWS Domain configurations
 
 Diagrams that show how each domain (Live/Test, Test-lite and Dev) have been architectured
 
-See Wiki Pages that describe each element of the schema, web crawlers ans AWS domains
+See Wiki Pages that describe each element of the schema, web crawlers and AWS domains
