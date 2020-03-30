@@ -1,4 +1,4 @@
-# Elasticsearch
+# Discovery - Elasticsearch
 Documentation of TNA Search implementation using Elasticsearch
 
 
