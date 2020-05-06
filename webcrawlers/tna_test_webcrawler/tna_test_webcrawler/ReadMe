@@ -1,15 +1,35 @@
 TNA Web crawlers:
 
-This document describes the implementation of a basic TNA Webcrawler
+WEB CRAWLER:
+https://en.wikipedia.org/wiki/Web_crawler
+
+A Web crawler, sometimes called a spider or spiderbot and often shortened to crawler, is an Internet bot that 
+systematically browses the World Wide Web, typically for the purpose of Web indexing (web spidering).
+
+Web search engines and some other sites use Web crawling or spidering software to update their web content or 
+indices of others sites' web content. Web crawlers copy pages for processing by a search engine which indexes 
+the downloaded pages so users can search more efficiently.
 
 
-spiders:
+WEB SCRAPING:
+https://en.wikipedia.org/wiki/Web_scraping
+
+Web scraping is data scraping used for extracting data from websites. 
+Web scraping software may access the World Wide Web directly using the Hypertext Transfer Protocol, or through 
+a web browser. While web scraping can be done manually by a software user, the term typically refers to automated 
+processes implemented using a bot or web crawler. It is a form of copying, in which specific data is gathered and 
+copied from the web, typically into a central local database or search engine, for later retrieval or analysis.
+
+This document describes the implementation of a basic TNA Webcrawler using Scrapy webcrawling library
+
+TNA Webcrawlers are split into the following code segments:
+SPIDERS:
 Spiders are classes which define how a certain site (or a group of sites) will be scraped, including how to perform
 the crawl (i.e. follow links) and how to extract structured data from their pages (i.e. scraping items). In other
 words, Spiders are the place where you define the custom behaviour for crawling and parsing pages for a particular
 site (or, in some cases, a group of sites).
 
-Items:
+ITEMS:
 The main goal in scraping is to extract structured data from unstructured sources, typically, web pages. Scrapy
 spiders can return the extracted data as Python dicts. While convenient and familiar, Python dicts lack structure:
 it is easy to make a typo in a field name or return inconsistent data, especially in a larger project with many
@@ -18,7 +38,7 @@ spiders.
 To define common output data format Scrapy provides the Item class. Item objects are simple containers used to collect
 the scraped data. They provide a dictionary-like API with a convenient syntax for declaring their available fields.
 
-Pipelines:
+PIPELINES:
 After an item has been scraped by a spider, it is sent to the Item Pipeline which processes it through several
 components that are executed sequentially.
 
@@ -26,17 +46,25 @@ Each item pipeline component (sometimes referred as just “Item Pipeline”) is
 method. They receive an item and perform an action over it, also deciding if the item should continue through the
 pipeline or be dropped and no longer processed.
 
-Settings:
+SETTINGS:
 The Scrapy settings allows you to customize the behaviour of all Scrapy components, including the core, extensions,
 pipelines and spiders themselves.
 
 The infrastructure of the settings provides a global namespace of key-value mappings that the code can use to pull
 configuration values from. The settings can be populated through different mechanisms
 
-Middlewares:
+MIDDLEWARES:
 The spider middleware is a framework of hooks into Scrapy’s spider processing mechanism where you can plug custom
 functionality to process the responses that are sent to Spiders for processing and to process the requests and items
 that are generated from spiders.
 
-Helpers:
+HELPERS:
 Customs functions to help with parsing data
+
+HOW TO RUN A CRAWLER LOCALLY:
+Open Command Prompt
+CD into the route folder of the project For example C:\webcrawlers\films
+RUN the command 'scrapy crawl (spider name) tna_films
+
+
+

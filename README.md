@@ -1,4 +1,4 @@
-# Elasticsearch
+# Discovery - Elasticsearch
 Documentation of TNA Search implementation using Elasticsearch
 
 
@@ -12,8 +12,12 @@ Mappings
 
 Analyzers
 
-Filters
+Filters/Tokenizers
+
+Web Cralwers
+
+AWS Domain configurations
 
 Diagrams that show how each domain (Live/Test, Test-lite and Dev) have been architectured
 
-Wiki Page that describes why each element of the schema has been used and on what index fields
+See Wiki Pages that describe each element of the schema, web crawlers and AWS domains
