@@ -1,0 +1,65 @@
+ (Digital Records Infrastructre) Updates
+
+This script has been created to update DRI records in MongoDB Records Collection and to re-index the records in
+Discovery.
+
+The script takes data from an excel spreadsheet, updates both test and live MongoDB instances and then sends the
+corresponding IAIDS to the search index Api, to re-index those records in Discovery.
+
+To Run DRI-Updates
+
+Download spreadsheet
+Rename spreadsheet to DRIUpdates.xlsx
+Open Speadsheet and delete first to columns of 'current' worksheet (Reference, Link) Save spreadsheet
+Copy spreadsheet to dri-updates folder on wb-t-lobapp1
+Remote onto wb-t-lobapp1
+Open command prompt
+CD to dri-updates folder
+Run python extract_data_replicasets.py
+
+Record fields that are currently updated:
+Title
+Description
+Note
+Covering Dates
+Covering From Date
+Covering To Date
+Closure Code
+Record Opening Date
+
+
+##### GOTCHAS #######
+The script doesn't test if the mongoDB instance you are writng to is the lead database in the replica set
+However, you will get an error message. In this case change the mongoDB setting to the lead database in the
+replica set and re-run the python script.
+
+
+####### MOMGODB SETTINGS #######
+DEV MONGODB
+client: 'wb-d-soasql2.web.local'
+port: 27017
+collection: iadata
+db: Records
+
+TEST MONGODB
+client: 'wb-t-data1.web.local', 'wb-t-data2.web.local'
+port: 27107
+collection: iadata
+db: Records
+
+LIVE MONGODB
+client: 'wb-data1.web.local', 'wb-data2.web.local'
+port: 27017
+collection: iadata
+db: Records
+
+
+####### API URL SETTINGS #######
+DEV INDEX
+'http://wb-t-lobapp1.web.local/SearchIndexSvcWebApi/IndexDev/'
+
+TEST INDEX
+'http://wb-t-lobapp1.web.local/SearchIndexSvcWebApi/IndexTest/'
+
+LIVE INDEX
+'http://wb-t-lobapp1.web.local/SearchIndexSvcWebApi/IndexLive/'
