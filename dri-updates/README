@@ -53,8 +53,10 @@ port: 27017
 collection: iadata
 db: Records
 
-
 ####### API URL SETTINGS #######
+
+PLEASE NOTE - These urls do not seem correct - need checking and the script amending - alternative is to 
+add IAIDS to the RecordIAIDs.txt file in the indexing tool and run the indexer seperatley.
 DEV INDEX
 'http://wb-t-lobapp1.web.local/SearchIndexSvcWebApi/IndexDev/'
 
