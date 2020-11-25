@@ -37,13 +37,20 @@
         "en_char_filter": {
           "type": "mapping",
           "mappings": [
-            "prise=>prixse",
+           "prise=>prixse",
+           "PRISE=>PRIXSE",
             "isable=>izable",
+            "ISABLE=>IZABLE",
             "isation=>ization",
+            "ISATION=>IZATION",
             "ise=>ize",
+            "ISE=>IZE",
             "ising=>izing",
+            "ISING=>IZING",
             "sation=>zation",
-            "ised=>ized"
+            "SATION=>ZATION",
+            "ised=>ized",
+            "ISED=>IZED"
           ]
         }
       },
