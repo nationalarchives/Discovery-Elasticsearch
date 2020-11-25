@@ -1,4 +1,4 @@
-## Schema records ##
+PUT /discovery_records
 {
   "settings": {
     "analysis": {
