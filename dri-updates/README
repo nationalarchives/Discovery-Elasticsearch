@@ -29,7 +29,7 @@ Record Opening Date
 
 
 ##### GOTCHAS #######
-The script doesn't complete if the mongoDB instance you are writng to is the lead database in the replica set
+The script doesn't complete if the mongoDB instance you are writng to is NOT the lead database in the replica set.
 However, you will get an error message. In this case change the mongoDB setting to the lead database in the
 replica set and re-run the python script.
 
