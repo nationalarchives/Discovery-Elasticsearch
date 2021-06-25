@@ -10,7 +10,7 @@ To Run DRI-Updates
 
 Download spreadsheet
 Rename spreadsheet to DRIUpdates.xlsx
-Open Speadsheet and delete first to columns of 'current' worksheet (Reference, Link) Save spreadsheet
+Open Speadsheet and delete first two columns of 'current' worksheet (Reference, Link) Save spreadsheet
 Copy spreadsheet to dri-updates folder on wb-t-lobapp1
 Remote onto wb-t-lobapp1
 Open command prompt
