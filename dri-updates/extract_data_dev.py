@@ -11,7 +11,7 @@ import datetime
 h = html.parser.HTMLParser()
 
 # pymongo no longer supports multiple standalones, so each client has to be listed separately
-client1 = MongoClient('mongodb://dbwriter:Pa55g10w@wb-d-soasql2/?authSource=admin')
+client1 = MongoClient('mongodb://username:password@servername/?authSource=admin')
 db1 = client1['iadata']
 col1 = db1['Records']
 
