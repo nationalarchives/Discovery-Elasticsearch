@@ -10,11 +10,11 @@ import re
 h = html.parser.HTMLParser()
 
 # Set monogodb clients for live and test instances
-client1 = MongoClient('mongodb://dbwriter:w01g55aP@wb-data2/?authSource=admin&connect=replicaset')
+client1 = MongoClient('mongodb://username:password@servername/?authSource=admin&connect=replicaset')
 db1 = client1['iadata']
 col1 = db1['Records']
 
-client2 = MongoClient('mongodb://dbwriter:w01g55aP@wb-t-data1/?authSource=admin&connect=replicaset')
+client2 = MongoClient('mongodb://username:password@servername/?authSource=admin&connect=replicaset')
 db2 = client2['iadata']
 col2 = db2['Records']
 
