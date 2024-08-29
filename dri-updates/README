@@ -15,6 +15,7 @@ Check that the spreadsheet doesn't have any other additional columns that aren't
 if there are any then delete the columns. If they hold data they'll have to be updated manually or the Python script.
 updated to deal with them.
 Copy spreadsheet to D:/dri-updates/DataUpdates folder on wb-t-lobapp1
+
 Remote onto wb-t-lobapp1
 Check that extract_data_replicasets.py is the latest version and that Excel columns map to Mongo fields  
 Open Powershell or command prompt
@@ -36,7 +37,6 @@ Record Opening Date
 The script doesn't complete if the mongoDB instance you are writng to is the primary database in the replica set
 However, you will get an error message. In this case change the mongoDB setting to the secondary database in the
 replica set and re-run the python script.
-
 
 ####### MOMGODB SETTINGS #######
 DEV MONGODB
